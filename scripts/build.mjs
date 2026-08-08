@@ -54,6 +54,7 @@ function renderRoute(route, title, description) {
     .replace(/(<meta property="og:url" content=")[^"]*(" \/>)/, `$1${canonical}$2`);
 }
 
+if (existsSync(join(root, 'wrangler.toml'))) rmSync(join(root, 'wrangler.toml'), { force: true });
 if (existsSync(dist)) rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 cpSync(join(root, 'assets'), join(dist, 'assets'), { recursive: true });

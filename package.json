@@ -6,9 +6,7 @@
   "description": "NyayaNest — A dependency-free static legal website & consultation platform.",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "verify": "node scripts/verify.mjs",
-    "start": "node scripts/build.mjs",
-    "deploy:pages": "npm run build && npx wrangler pages deploy dist --project-name=nyayanest"
+    "verify": "node scripts/verify.mjs"
   },
   "engines": {
     "node": ">=18.0.0"
