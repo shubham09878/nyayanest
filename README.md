@@ -1,4 +1,4 @@
-# NyayaNest
+# LAWPRIME
 
 A dependency-free, data-driven static legal website. It is designed to be deployed as a static site and keeps legal content deliberately conservative: no lawyer profile, contact detail, case outcome, judgment citation or legal proposition is invented.
 
@@ -38,27 +38,27 @@ For judgments, retain only verified data and add these fields to each record: ca
 
 ## Cloudflare Pages + GitHub Deployment
 
-NyayaNest is fully configured for automated zero-cost hosting on **Cloudflare Pages** connected to GitHub.
+LAWPRIME is fully configured for automated zero-cost hosting on **Cloudflare Pages** connected to GitHub.
 
 ### 1. Push to GitHub
 ```bash
 git init
 git add .
-git commit -m "Initial NyayaNest static platform release"
-git remote add origin https://github.com/YOUR_USERNAME/nyayanest.git
+git commit -m "Initial LAWPRIME static platform release"
+git remote add origin https://github.com/YOUR_USERNAME/lawprime.git
 git push -u origin main
 ```
 
 ### 2. Connect to Cloudflare Pages
 1. Log into your **Cloudflare Dashboard** and select **Workers & Pages**.
 2. Click **Create Application** $\rightarrow$ **Pages** $\rightarrow$ **Connect to Git**.
-3. Select your `nyayanest` repository.
+3. Select your `lawprime` repository.
 4. Configure Build Settings:
    - **Framework preset:** `None`
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
 5. Environmental Variables (Optional):
-   - Add `SITE_URL` = `https://nyayanest.pages.dev` (or your custom domain).
+   - Add `SITE_URL` = `https://lawprime.pages.dev` (or your custom domain).
 6. Click **Save and Deploy**. Cloudflare Pages will automatically build all 206 static routes and deploy worldwide with free SSL and CDN edge caching.
 
 ## Content architecture

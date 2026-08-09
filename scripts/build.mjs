@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { practiceAreas, courts, caseTypes, notices, resources, serviceRecords, judgments, insights, lawyers } from '../assets/data.js';
@@ -6,37 +6,73 @@ import { practiceAreas, courts, caseTypes, notices, resources, serviceRecords, j
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
 const dist = join(root, 'dist');
-const domain = (process.env.SITE_URL || 'https://www.example.com').replace(/\/$/, '');
+const domain = (process.env.SITE_URL || 'https://www.lawprime.com').replace(/\/$/, '');
+
+// Copy generated legal images to assets/images
+const imgDir = join(root, 'assets', 'images');
+mkdirSync(imgDir, { recursive: true });
+const brainDir = 'C:\\Users\\Kstar\\.gemini\\antigravity-ide\\brain\\614cf96f-ec2f-43ce-92fa-cc9393049b32';
+if (existsSync(brainDir)) {
+  const files = readdirSync(brainDir);
+  const mappings = {
+    'hero_lawprime': 'hero-lawprime.png',
+    'about_lawprime': 'about-lawprime.png',
+    'family_law': 'family-law.png',
+    'civil_litigation': 'civil-litigation.png',
+    'criminal_law': 'criminal-law.png',
+    'property_law': 'property-law.png',
+    'consumer_law': 'consumer-law.png',
+    'banking_finance': 'banking-finance.png',
+    'corporate_law': 'corporate-law.png',
+    'cheque_bounce': 'cheque-bounce.png',
+    'employment_law': 'employment-law.png',
+    'constitutional_law': 'constitutional-law.png'
+  };
+  for (const [prefix, filename] of Object.entries(mappings)) {
+    const match = files.find(f => f.startsWith(prefix) && f.endsWith('.png'));
+    if (match) {
+      cpSync(join(brainDir, match), join(imgDir, filename));
+    }
+  }
+  if (existsSync(join(imgDir, 'about-lawprime.png'))) {
+    cpSync(join(imgDir, 'about-lawprime.png'), join(imgDir, 'legal-consultation.png'));
+    cpSync(join(imgDir, 'about-lawprime.png'), join(imgDir, 'law-library.png'));
+  }
+  if (existsSync(join(imgDir, 'constitutional-law.png'))) {
+    cpSync(join(imgDir, 'constitutional-law.png'), join(imgDir, 'courtroom-jurisdiction.png'));
+  }
+}
+
 const shell = readFileSync(join(root, 'index.html'), 'utf8');
 
 const routes = [
-  ['/', 'NyayaNest | Legal counsel with clarity', 'Legal information and consultation for consequential matters.'],
-  ['/about/', 'About NyayaNest | NyayaNest', 'About the NyayaNest legal information and consultation platform.'],
-  ['/practice-areas/', 'Practice Areas | NyayaNest', 'Explore NyayaNest practice areas.'],
-  ['/courts/', 'Courts & Jurisdictions | NyayaNest', 'Courts, commissions and tribunals relevant to NyayaNest.'],
-  ['/lawyers/', 'Lawyers | NyayaNest', 'Verified professional profiles published by NyayaNest.'],
-  ['/judgments/', 'Judgment Library | NyayaNest', 'A structured library for verified legal judgments.'],
-  ['/legal-insights/', 'Legal Insights | NyayaNest', 'Verified legal guides, analysis and updates.'],
-  ['/case-types/', 'Case Types | NyayaNest', 'Explore common legal case categories.'],
-  ['/legal-notices/', 'Legal Notices | NyayaNest', 'General information about common legal notices.'],
-  ['/legal-resources/', 'Legal Resources | NyayaNest', 'Legal resources, court procedures and glossary material.'],
-  ['/faqs/', 'Frequently Asked Questions | NyayaNest', 'General legal questions answered with care.'],
-  ['/contact/', 'Contact | NyayaNest', 'Contact NyayaNest.'],
-  ['/consultation/', 'Consultation | NyayaNest', 'Request a consultation with NyayaNest.'],
-  ['/careers/', 'Careers | NyayaNest', 'Careers at NyayaNest.'],
-  ['/privacy-policy/', 'Privacy Policy | NyayaNest', 'NyayaNest privacy policy.'],
-  ['/terms-of-use/', 'Terms of Use | NyayaNest', 'NyayaNest terms of use.'],
-  ['/website-disclaimer/', 'Website Disclaimer | NyayaNest', 'NyayaNest website disclaimer.'],
-  ['/legal-disclaimer/', 'Legal Disclaimer | NyayaNest', 'NyayaNest legal disclaimer.'],
-  ...practiceAreas.map(area => [`/practice-areas/${area.slug}/`, `${area.title} | NyayaNest`, area.short]),
-  ...serviceRecords.map(service => [`/practice-areas/${service.areaSlug}/${service.slug}/`, `${service.title} | NyayaNest`, service.description]),
-  ...courts.map(court => [`/courts/${court.slug}/`, `${court.title} | NyayaNest`, court.scope]),
-  ...caseTypes.map(item => [`/case-types/${item.slug}/`, `${item.title} | NyayaNest`, `A general guide to ${item.title.toLowerCase()}.`]),
-  ...notices.map(item => [`/legal-notices/${item.slug}/`, `${item.title} | NyayaNest`, `A general guide to ${item.title.toLowerCase()}.`]),
-  ...resources.map(item => [`/legal-resources/${item.slug}/`, `${item.title} | NyayaNest`, item.text]),
-  ...judgments.map(item => [`/judgments/${item.slug}/`, `${item.caseName} | NyayaNest`, item.citation || 'Verified legal judgment.']),
-  ...insights.map(item => [`/legal-insights/${item.slug}/`, `${item.title} | NyayaNest`, item.excerpt || 'Verified legal insight.']),
-  ...lawyers.map(item => [`/lawyers/${item.slug}/`, `${item.name} | NyayaNest`, item.summary || 'Verified professional profile.'])
+  ['/', 'LAWPRIME | Legal counsel with clarity', 'Legal information and consultation for consequential matters.'],
+  ['/about/', 'About LAWPRIME | LAWPRIME', 'About the LAWPRIME legal information and consultation platform.'],
+  ['/practice-areas/', 'Practice Areas | LAWPRIME', 'Explore LAWPRIME practice areas.'],
+  ['/courts/', 'Courts & Jurisdictions | LAWPRIME', 'Courts, commissions and tribunals relevant to LAWPRIME.'],
+  ['/lawyers/', 'Lawyers | LAWPRIME', 'Verified professional profiles published by LAWPRIME.'],
+  ['/judgments/', 'Judgment Library | LAWPRIME', 'A structured library for verified legal judgments.'],
+  ['/legal-insights/', 'Legal Insights | LAWPRIME', 'Verified legal guides, analysis and updates.'],
+  ['/case-types/', 'Case Types | LAWPRIME', 'Explore common legal case categories.'],
+  ['/legal-notices/', 'Legal Notices | LAWPRIME', 'General information about common legal notices.'],
+  ['/legal-resources/', 'Legal Resources | LAWPRIME', 'Legal resources, court procedures and glossary material.'],
+  ['/faqs/', 'Frequently Asked Questions | LAWPRIME', 'General legal questions answered with care.'],
+  ['/contact/', 'Contact | LAWPRIME', 'Contact LAWPRIME.'],
+  ['/consultation/', 'Consultation | LAWPRIME', 'Request a consultation with LAWPRIME.'],
+  ['/careers/', 'Careers | LAWPRIME', 'Careers at LAWPRIME.'],
+  ['/privacy-policy/', 'Privacy Policy | LAWPRIME', 'LAWPRIME privacy policy.'],
+  ['/terms-of-use/', 'Terms of Use | LAWPRIME', 'LAWPRIME terms of use.'],
+  ['/website-disclaimer/', 'Website Disclaimer | LAWPRIME', 'LAWPRIME website disclaimer.'],
+  ['/legal-disclaimer/', 'Legal Disclaimer | LAWPRIME', 'LAWPRIME legal disclaimer.'],
+  ...practiceAreas.map(area => [`/practice-areas/${area.slug}/`, `${area.title} | LAWPRIME`, area.short]),
+  ...serviceRecords.map(service => [`/practice-areas/${service.areaSlug}/${service.slug}/`, `${service.title} | LAWPRIME`, service.description]),
+  ...courts.map(court => [`/courts/${court.slug}/`, `${court.title} | LAWPRIME`, court.scope]),
+  ...caseTypes.map(item => [`/case-types/${item.slug}/`, `${item.title} | LAWPRIME`, `A general guide to ${item.title.toLowerCase()}.`]),
+  ...notices.map(item => [`/legal-notices/${item.slug}/`, `${item.title} | LAWPRIME`, `A general guide to ${item.title.toLowerCase()}.`]),
+  ...resources.map(item => [`/legal-resources/${item.slug}/`, `${item.title} | LAWPRIME`, item.text]),
+  ...judgments.map(item => [`/judgments/${item.slug}/`, `${item.caseName} | LAWPRIME`, item.citation || 'Verified legal judgment.']),
+  ...insights.map(item => [`/legal-insights/${item.slug}/`, `${item.title} | LAWPRIME`, item.excerpt || 'Verified legal insight.']),
+  ...lawyers.map(item => [`/lawyers/${item.slug}/`, `${item.name} | LAWPRIME`, item.summary || 'Verified professional profile.'])
 ];
 
 function escapeHtml(value) {
@@ -66,8 +102,9 @@ for (const [route, title, description] of routes) {
   writeFileSync(target, renderRoute(route, title, description));
 }
 
-writeFileSync(join(dist, '404.html'), renderRoute('/404/', 'Page not found | NyayaNest', 'The requested page is not available.'));
+writeFileSync(join(dist, '404.html'), renderRoute('/404/', 'Page not found | LAWPRIME', 'The requested page is not available.'));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map(([route]) => `  <url><loc>${domain}${route}</loc></url>`).join('\n')}\n</urlset>\n`;
 writeFileSync(join(dist, 'sitemap.xml'), sitemap);
 writeFileSync(join(dist, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /404.html\n\nSitemap: ${domain}/sitemap.xml\n`);
 console.log(`Built ${routes.length} static routes in ${dist}`);
+
