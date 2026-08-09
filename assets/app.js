@@ -65,9 +65,160 @@ function footer() {
 }
 
 function home() {
-  const featuredAreas = practiceAreas.slice(0, 6);
-  const coreServices = ['Divorce', 'Child Custody', 'Bail', 'Property Disputes'].map(name => serviceRecords.find(x => x.title === name)).filter(Boolean);
-  return `<main id="main-content"><section class="home-hero"><div class="container hero-grid"><div><span class="eyebrow">Chandigarh Tricity · Derabassi · Punjab & Haryana High Court</span><h1>Litigation counsel with primary focus on Family & Matrimonial Law.</h1><p class="lead">LAWPRIME brings a measured, detail-led approach to family disputes, matrimonial matters, civil litigation and legal proceedings across Chandigarh, Mohali, Panchkula, Derabassi and the High Court.</p><div class="hero-actions"><a class="btn btn-primary" href="/consultation/">Request a consultation <span>→</span></a><a class="btn btn-light" href="tel:9855243212">Call 9855243212</a><a class="btn btn-light" href="https://wa.me/919855243212" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div><div class="hero-side"><img src="/assets/images/hero-lawprime.png" alt="LAWPRIME Law Firm Scales of Justice and Legal Practice" class="hero-image" width="600" height="420" loading="eager" fetchpriority="high" /><p class="hero-statement">Every legal matter deserves careful listening, accurate legal context and a strategy shaped by its own facts.</p><div class="hero-index"><div><span>Primary Focus</span><strong>Family & Matrimonial Law</strong></div><div><span>Service Area</span><strong>Chandigarh • Mohali • Panchkula • Derabassi</strong></div><div><span>Office Chamber</span><strong>Chamber 385, Sector 43 Courts</strong></div></div></div></div><span class="hero-scroll">Scroll to explore</span></section><section class="positioning section"><div class="container positioning-grid"><div><span class="positioning-number">01</span></div><div><span class="eyebrow">Litigation Practice</span><h2>Family & Matrimonial Law, handled with procedural focus.</h2><p class="lead">Whether a matter involves divorce, custody, maintenance, property, criminal defence, or civil litigation, LAWPRIME provides composed legal counsel and representation in the appropriate forum.</p><div class="section-image-card"><img src="/assets/images/family-law.png" alt="LAWPRIME Family and Matrimonial Law Practice" width="800" height="320" loading="lazy" /></div><div class="point-list"><div class="point"><strong>Primary Family Focus</strong><span class="text-muted">Specialised attention to matrimonial disputes, mutual divorce, alimony, and custody.</span></div><div class="point"><strong>Procedurally aware</strong><span class="text-muted">Strategic filings before District Courts, High Court, DRT, NCLT, MACT, and Commissions.</span></div><div class="point"><strong>Confidential & discreet</strong><span class="text-muted">Sensitive personal and commercial matters handled with strict discretion.</span></div><div class="point"><strong>Fact-grounded advice</strong><span class="text-muted">Clear analysis without false assurances or exaggerated claims.</span></div></div></div></div></section><section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Practice areas</span><h2>Legal capability, organised around real problems.</h2></div><a class="link-arrow" href="/practice-areas/">View all practice areas</a></div><div class="area-grid">${featuredAreas.map((area,i) => card(`/practice-areas/${area.slug}/`, `0${i + 1} / Practice Area`, area.title, area.short, area.slug)).join('')}</div></div></section><section class="section-tight"><div class="container"><div class="section-head"><div><span class="eyebrow">Core services</span><h2>A clear view of key legal concerns.</h2></div></div><div class="service-strip">${coreServices.map((service,i) => `<a href="/practice-areas/${service.areaSlug}/${service.slug}/"><span>0${i + 1} / Service</span><strong>${esc(service.title)}</strong><span class="link-arrow">Learn more</span></a>`).join('')}</div></div></section><section class="section positioning"><div class="container"><div class="section-head"><div><span class="eyebrow">Why LAWPRIME</span><h2>Professionalism lives in the details.</h2></div></div><div class="reason-grid"><div class="reason"><strong>Plain-spoken clarity</strong><p>Complex process is explained without overstating certainty.</p></div><div class="reason"><strong>Structured preparation</strong><p>Documents, timeline and forum options considered early.</p></div><div class="reason"><strong>Multidisciplinary practice</strong><p>Representation across family, civil, criminal, property, and tribunal matters.</p></div><div class="reason"><strong>Verified publishing</strong><p>Unverified claim details, rankings, or fake authorities are never published.</p></div></div></div></section><section class="dark-section section"><div class="container"><div class="section-head"><div><span class="eyebrow">Courts & jurisdictions</span><h2>Understand the forum before you begin.</h2><p class="lead">Serving clients before courts and tribunals in Chandigarh, Mohali, Panchkula, Derabassi, and the Punjab & Haryana High Court.</p></div><a class="btn btn-light" href="/courts/">Explore jurisdictions</a></div><div class="court-grid">${courts.slice(0,6).map(court => `<a class="court-card" href="/courts/${court.slug}/"><span class="court-type">${esc(court.type)}</span><h3>${esc(court.title)}</h3></a>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Legal knowledge</span><h2>Published with a high threshold for accuracy.</h2></div><a class="link-arrow" href="/judgments/">Explore the judgment library</a></div><div class="editorial-grid"><article class="editorial-card featured"><img src="/assets/images/law-library.png" alt="LAWPRIME Legal Judgment Library" class="card-media" width="600" height="180" loading="lazy" /><span class="meta">Judgment library</span><div><h3>A structured home for verified legal authority.</h3><p class="text-muted">Organising key judgments by court, year, practice area, law, section and topic.</p></div><a class="link-arrow" href="/judgments/">Browse the library</a></article><article class="editorial-card"><span class="meta">Legal team</span><div><h3>Enrolled Advocates at your service.</h3><p class="text-muted">Meet our advocates practicing across Chandigarh Tricity and Derabassi.</p></div><a class="link-arrow" href="/lawyers/">View legal team</a></article></div></div></section><section class="section-tight"><div class="container"><div class="section-head"><div><span class="eyebrow">Frequently asked questions</span><h2>Start with the questions that shape a next step.</h2></div><a class="link-arrow" href="/faqs/">View all FAQs</a></div><div class="accordion">${faqs.slice(0,4).map((faq,i) => faqMarkup(faq,i)).join('')}</div></div></section>${cta()}</main>`;
+  const core10Areas = practiceAreas.slice(0, 10);
+  const homeFaqs = faqs.slice(0, 8);
+  return `<main id="main-content">
+    <section class="home-hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Litigation & Legal Advisory · Chandigarh Tricity & High Court</span>
+          <h1>Legal Counsel, Litigation Support & Practical Legal Assistance</h1>
+          <p class="lead">LAWPRIME offers structured legal advice, diligent case preparation, and procedural representation across District Courts, Tribunals, and the Punjab & Haryana High Court. We focus on clear legal communication and matter-specific strategy.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/consultation/">Book a Consultation <span>→</span></a>
+            <a class="btn btn-light" href="/practice-areas/">Explore Practice Areas</a>
+          </div>
+        </div>
+        <div class="hero-side">
+          <img src="/assets/images/hero-lawprime.png" alt="LAWPRIME Legal Practice Scales of Justice and Courtroom Desk" class="hero-image" width="600" height="420" loading="eager" fetchpriority="high" />
+          <p class="hero-statement">Every legal matter requires careful document evaluation, procedural accuracy, and a strategy grounded in factual evidence.</p>
+          <div class="hero-index">
+            <div><span>Primary Focus</span><strong>Litigation & Advisory</strong></div>
+            <div><span>Jurisdiction</span><strong>Chandigarh • Mohali • Panchkula • High Court</strong></div>
+            <div><span>Chamber Location</span><strong>Sector 43 District Courts, Chandigarh</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="positioning section">
+      <div class="container positioning-grid">
+        <div><span class="positioning-number">01</span></div>
+        <div>
+          <span class="eyebrow">About LAWPRIME</span>
+          <h2>A legal practice committed to factual accuracy & procedural strategy.</h2>
+          <p class="lead">LAWPRIME is an Indian legal practice dedicated to assisting individuals, families, business owners, and organizations with complex legal concerns. We provide balanced legal guidance that prioritizes procedural compliance, rigorous document verification, and transparent communication.</p>
+          <div class="section-image-card">
+            <img src="/assets/images/about-lawprime.png" alt="LAWPRIME Law Firm Library and Legal Chamber" width="800" height="320" loading="lazy" />
+          </div>
+          <div class="point-list">
+            <div class="point"><strong>Case-Specific Strategy</strong><span class="text-muted">Every matter is assessed individually based on its timeline, statutory framework, and documentary evidence.</span></div>
+            <div class="point"><strong>Structured Documentation</strong><span class="text-muted">Careful drafting of pleadings, notices, affidavits, and written submissions to protect client interests.</span></div>
+            <div class="point"><strong>Courtroom Representation</strong><span class="text-muted">Diligent advocacy before District Courts, High Courts, Consumer Commissions, DRT, NCLT, and MACT.</span></div>
+            <div class="point"><strong>Clear & Objective Communication</strong><span class="text-muted">Plain-language explanations of court options, realistic risks, and procedural timelines without outcome guarantees.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Core Practice Areas</span>
+            <h2>Comprehensive litigation support & legal advisory across 10 practice areas.</h2>
+          </div>
+          <a class="link-arrow" href="/practice-areas/">View all practice areas</a>
+        </div>
+        <div class="area-grid">
+          ${core10Areas.map((area, i) => card(`/practice-areas/${area.slug}/`, `0${i + 1} / Core Practice Area`, area.title, area.short, area.slug)).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section positioning">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Why Choose LAWPRIME</span>
+            <h2>Genuine professional standards focused on client clarity & diligence.</h2>
+          </div>
+        </div>
+        <div class="reason-grid">
+          <div class="reason">
+            <strong>Clear Legal Communication</strong>
+            <p>We explain complex statutory provisions, court procedures, and procedural options in simple, understandable terms.</p>
+          </div>
+          <div class="reason">
+            <strong>Fact-Grounded Strategy</strong>
+            <p>Our advisory is based on verified documents, applicable statutes, and judicial precedents rather than speculative promises.</p>
+          </div>
+          <div class="reason">
+            <strong>Structured Case Preparation</strong>
+            <p>From initial legal notice drafting to final evidence, every filing is organized with attention to procedural timelines.</p>
+          </div>
+          <div class="reason">
+            <strong>Strict Confidentiality</strong>
+            <p>Client communications, dispute details, financial records, and legal strategy are protected under legal ethics standards.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark-section section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Courts & Jurisdictions</span>
+            <h2>Representation & legal guidance across key judicial forums.</h2>
+            <p class="lead">Serving clients across District Courts, Commissions, Tribunals, and the Punjab & Haryana High Court.</p>
+          </div>
+          <a class="btn btn-light" href="/courts/">Explore jurisdictions</a>
+        </div>
+        <div class="court-grid">
+          ${courts.slice(0, 6).map(court => `<a class="court-card" href="/courts/${court.slug}/"><span class="court-type">${esc(court.type)}</span><h3>${esc(court.title)}</h3><p>${esc(court.scope)}</p></a>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Consultation Preparation</span>
+            <h2>What to prepare before consulting a lawyer.</h2>
+            <p class="lead">A productive legal consultation begins with organized facts and records.</p>
+          </div>
+          <a class="btn btn-primary" href="/consultation/">Schedule a consultation <span>→</span></a>
+        </div>
+        <div class="reason-grid">
+          <div class="reason">
+            <strong>1. Chronology of Events</strong>
+            <p>Write down a brief, date-wise timeline of key incidents, communications, notices, or court filings relevant to your matter.</p>
+          </div>
+          <div class="reason">
+            <strong>2. Key Documents & Agreements</strong>
+            <p>Assemble copies of contracts, marriage certificates, title deeds, bank memos, police complaints, or notices received.</p>
+          </div>
+          <div class="reason">
+            <strong>3. Specific Legal Relief Sought</strong>
+            <p>Identify your primary objectives—whether seeking financial recovery, bail, protection order, divorce, or property partition.</p>
+          </div>
+          <div class="reason">
+            <strong>4. Written List of Questions</strong>
+            <p>Prepare questions regarding procedural timelines, court fees, forum jurisdiction, and initial legal steps required.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Frequently Asked Questions</span>
+            <h2>Essential answers regarding legal consultation & proceedings.</h2>
+          </div>
+          <a class="link-arrow" href="/faqs/">View all FAQs</a>
+        </div>
+        <div class="accordion">
+          ${homeFaqs.map((faq, i) => faqMarkup(faq, i)).join('')}
+        </div>
+      </div>
+    </section>
+
+    ${cta()}
+  </main>`;
 }
 
 function faqMarkup(faq, index) {
@@ -75,7 +226,65 @@ function faqMarkup(faq, index) {
 }
 
 function about() {
-  return `<main id="main-content">${pageHero({ eyebrow:'About LAWPRIME', title:'Litigation-focused legal practice in Chandigarh Tricity & Derabassi.', lead:'LAWPRIME provides legal counsel and representation with a primary focus on Family & Matrimonial Law alongside civil, criminal, property, and tribunal litigation.', crumbs:[{label:'About LAWPRIME'}] })}<section class="page-body"><div class="container content-grid"><article class="prose"><img src="/assets/images/about-lawprime.png" alt="LAWPRIME Legal Chamber and Law Library at Sector 43 District Courts Chandigarh" class="about-image" width="900" height="380" loading="lazy" /><p class="lead">LAWPRIME is a litigation-focused legal practice operating from Chamber No. 385, District Courts, Sector 43, Chandigarh – 160043, serving clients across Chandigarh, Mohali, Panchkula, Derabassi, and the Punjab & Haryana High Court.</p><h2>Primary Focus: Family & Matrimonial Law</h2><p>LAWPRIME maintains a dedicated primary focus on <strong>Family & Matrimonial Law</strong>—providing discreet, procedural counsel in matters including mutual consent divorce, contested divorce, child custody, guardianship, interim and permanent maintenance, alimony, restitution of conjugal rights, domestic violence, and related matrimonial disputes.</p><h2>Litigation & Practice Areas</h2><p>In addition to family law, the practice handles litigation across established practice areas where legal representation is required:</p><ul><li>Civil Litigation & Recovery Suits</li><li>Criminal Defence, Bail & Complaints</li><li>Property & Real Estate Disputes</li><li>Consumer Law & Complaints</li><li>Banking & Financial Disputes (DRT)</li><li>Corporate & Commercial Disputes (NCLT)</li><li>Labour & Employment Matters</li><li>Motor Accident Claims (MACT)</li><li>Writs & Constitutional Matters</li></ul><h2>Courts & Jurisdictions</h2><p>Our legal team represents clients across key judicial and tribunal forums:</p><ul><li>Punjab & Haryana High Court</li><li>Chandigarh District Courts (Sector 43)</li><li>Mohali Courts (SAS Nagar)</li><li>Panchkula District Courts</li><li>Derabassi Sub-Divisional Courts</li><li>Debt Recovery Tribunal (DRT)</li><li>National Company Law Tribunal (NCLT)</li><li>Consumer Disputes Redressal Commissions</li><li>Motor Accident Claims Tribunal (MACT)</li></ul><h2>Legal Team</h2><p>The practice comprises enrolled advocates committed to procedural diligence and client confidentiality:</p><ul><li><strong>Advocate Shubham Gupta</strong> — Enrollment No. PH/5533/2025</li><li><strong>Advocate Kanwar Chaudhary</strong> — Enrollment No. P/421/2006</li><li><strong>Advocate Mukesh Kumar</strong> — Enrollment No. P/1013/2004</li><li><strong>Advocate Himanshu Verma</strong> — Enrollment No. PH/4237/2023</li><li><strong>Advocate Ravinder Kumar</strong> — Enrolled Advocate</li></ul><h2>Chamber & Contact Information</h2><p><strong>Chamber Address:</strong> Chamber No. 385, District Courts, Sector 43, Chandigarh – 160043<br><strong>Working Hours:</strong> 10:00 AM – 5:00 PM<br><strong>Phone / WhatsApp:</strong> +91 9855243212<br><strong>Email:</strong> guptaslaw@gmail.com</p><h2>Professional Standards</h2><p>LAWPRIME adheres strictly to professional standards. Website information is provided for general reference and does not constitute formal legal advice until a matter is reviewed under a professional engagement.</p></article>${consultationPanel()}</div></section>${cta()}</main>`;
+  return `<main id="main-content">
+    ${pageHero({ eyebrow:'About LAWPRIME', title:'About LAWPRIME', lead:'An Indian legal practice offering litigation counsel, dispute resolution, and legal advisory services.', crumbs:[{label:'About LAWPRIME'}] })}
+    <section class="page-body">
+      <div class="container content-grid">
+        <article class="prose">
+          <img src="/assets/images/about-lawprime.png" alt="LAWPRIME Law Firm Library and Legal Chamber" class="about-image" width="900" height="380" loading="lazy" />
+          
+          <h2>1. Who We Are</h2>
+          <p>LAWPRIME is an Indian legal practice dedicated to offering structured legal counsel, courtroom litigation representation, and advisory services. We assist individuals, families, business entities, and institutions in navigating complex legal disputes across District Courts, High Courts, and specialized statutory Tribunals.</p>
+          
+          <h2>2. Our Legal Approach</h2>
+          <p>Our practice is founded on objective legal analysis, procedural compliance, and methodical case preparation. We emphasize clear legal strategy based on verified facts, documentary evidence, and applicable statutory provisions rather than speculative claims or unverified outcome assurances.</p>
+          
+          <h2>3. Litigation & Legal Advisory</h2>
+          <p>LAWPRIME provides comprehensive litigation representation and pre-litigation advisory. Whether representing clients in trial court hearings, drafting writ petitions, challenging statutory notices, or conducting commercial negotiations, we approach every matter with procedural diligence.</p>
+          
+          <h2>4. Client Communication</h2>
+          <p>We prioritize transparent, plain-language communication. Clients receive clear explanations of legal rights, procedural options, potential risks, and statutory timelines at every stage of their matter, ensuring informed decision-making.</p>
+          
+          <h2>5. Case Preparation & Documentation</h2>
+          <p>Effective advocacy depends on thorough document verification and drafting. Our team prepares detailed pleadings, plaints, written statements, affidavits, statutory notices, and evidentiary records aligned with court rules and evidence standards.</p>
+          
+          <h2>6. Professional Ethics</h2>
+          <p>LAWPRIME adheres strictly to the legal ethics standards prescribed by the Bar Council of India. We uphold independence, professional integrity, duty to the court, and respect for the administration of justice.</p>
+          
+          <h2>7. Confidentiality</h2>
+          <p>All client communications, case details, financial disclosures, and strategic consultations are held in strict confidence under advocate-client privilege, preserving complete privacy and discretion.</p>
+          
+          <h2>8. Areas of Practice</h2>
+          <p>Our core practice encompasses ten major areas of Indian law:</p>
+          <ul>
+            <li>Family & Matrimonial Law</li>
+            <li>Civil Litigation & Recovery</li>
+            <li>Criminal Law & Defence</li>
+            <li>Property & Real Estate Law</li>
+            <li>Consumer Law & Protection</li>
+            <li>Banking & Financial Law (DRT / SARFAESI)</li>
+            <li>Corporate & Commercial Law</li>
+            <li>Cheque Bounce / Negotiable Instruments Act</li>
+            <li>Labour & Employment Law</li>
+            <li>Writ & Constitutional Matters</li>
+          </ul>
+
+          <h2>9. Consultation Process</h2>
+          <p>Initial consultations are structured to examine matter history, review documents, evaluate statutory jurisdiction, and outline recommended legal pathways. Clients receive objective assessments before embarking on formal litigation or dispute resolution.</p>
+
+          <div class="notice" style="margin-top:2rem;">
+            <strong>Chamber Contact Details:</strong><br>
+            <strong>Office Address:</strong> ${site.contact.address}<br>
+            <strong>Phone / Contact:</strong> ${site.contact.phone}<br>
+            <strong>Email:</strong> ${site.contact.email}<br>
+            <strong>Consultation Timings:</strong> ${site.contact.hours}
+          </div>
+        </article>
+        ${consultationPanel()}
+      </div>
+    </section>
+    ${cta()}
+  </main>`;
 }
 
 function practiceListing() {
@@ -84,7 +293,103 @@ function practiceListing() {
 
 function practicePage(area) {
   const services = serviceRecords.filter(x => x.areaSlug === area.slug);
-  return `<main id="main-content">${pageHero({ eyebrow:'Practice area', title:area.title, lead:area.short, crumbs:[{label:'Practice Areas',path:'/practice-areas/'},{label:area.title}] })}<section class="page-body"><div class="container content-grid"><article class="prose"><div class="section-image-card"><img src="${imageForSlug(area.slug)}" alt="${esc(area.title)} practice area visual" width="800" height="320" loading="eager" /></div><p class="lead">Matters in this area can affect important relationships, rights, property and responsibilities. The appropriate response depends on the facts, documentation, applicable law and the court or forum with jurisdiction.</p><h2>How legal assistance can help</h2><p>Early legal guidance can help identify the relevant remedy, preserve important material, understand procedure and prepare for a measured next step. It should never be treated as a guarantee of a particular outcome.</p><h2>Services in ${esc(area.title)}</h2><ul class="service-list">${services.map(s => `<li><a href="/practice-areas/${s.areaSlug}/${s.slug}/">${esc(s.title)}</a></li>`).join('')}</ul><h2>Related legal pathways</h2><div class="info-grid"><div><strong>Applicable law</strong><p>Relevant legislation and sections depend on the facts and should be confirmed for each matter.</p></div><div><strong>Forum and jurisdiction</strong><p>The correct court or tribunal depends on the remedy, parties, territory and law in force.</p></div><div><strong>Documents and record</strong><p>Original records, correspondence and chronology may be important for legal assessment.</p></div><div><strong>Related resources</strong><p>Use the knowledge pages to understand procedure and prepare relevant questions.</p></div></div><h2>Frequently asked questions</h2><div class="accordion">${faqs.filter(f => f.category === area.title || (area.slug.includes('family') && ['Family Law','Divorce'].includes(f.category)) || (area.slug === 'criminal-law' && ['Criminal Law','Bail'].includes(f.category)) || (area.slug === 'civil-litigation' && f.category === 'Civil Litigation') || (area.slug === 'property-real-estate' && f.category === 'Property') || (area.slug === 'consumer-law' && f.category === 'Consumer Law')).slice(0,3).map(faqMarkup).join('') || faqMarkup({q:'How do I know what information is relevant?',a:'The relevance of documents and facts depends on the issue, stage and applicable law. A focused review is the safest starting point.'}, 0)}</div></article>${consultationPanel(area.title)}</div></section>${cta()}</main>`;
+  const areaFaqs = faqs.filter(f => f.category === area.title || f.category.includes(area.title.split(' ')[0])).slice(0, 4);
+  const relevantLawsMap = {
+    'family-matrimonial-law': 'Hindu Marriage Act, 1955; Special Marriage Act, 1954; Guardians and Wards Act, 1890; Protection of Women from Domestic Violence Act, 2005; Family Courts Act, 1984; Hindu Adoptions and Maintenance Act, 1956.',
+    'civil-litigation': 'Code of Civil Procedure, 1908; Specific Relief Act, 1963; Limitation Act, 1963; Indian Contract Act, 1872; Court Fees Act, 1870.',
+    'criminal-law': 'Bharatiya Nyaya Sanhita, 2023 (BNS) / Indian Penal Code, 1860; Bharatiya Nagarik Suraksha Sanhita, 2023 (BNSS) / Code of Criminal Procedure, 1973; Bharatiya Sakshya Adhiniyam, 2023 (BSA) / Indian Evidence Act, 1872.',
+    'property-real-estate': 'Transfer of Property Act, 1882; Registration Act, 1908; Real Estate (Regulation and Development) Act, 2016 (RERA); Hindu Succession Act, 1956; Indian Stamp Act, 1899.',
+    'consumer-law': 'Consumer Protection Act, 2019; Consumer Protection (Direct Selling) Rules, 2021; Real Estate (Regulation and Development) Act, 2016.',
+    'banking-finance': 'Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest Act, 2002 (SARFAESI); Recovery of Debts and Bankruptcy Act, 1993 (RDB Act); Banking Regulation Act, 1949; Reserve Bank of India Directives.',
+    'corporate-commercial': 'Companies Act, 2013; Indian Contract Act, 1872; Arbitration and Conciliation Act, 1996; Insolvency and Bankruptcy Code, 2016 (IBC); Commercial Courts Act, 2015.',
+    'cheque-bounce': 'Negotiable Instruments Act, 1881 (Sections 138, 139, 141, 142, 143A, 148); Bharatiya Nagarik Suraksha Sanhita, 2023 / Code of Criminal Procedure, 1973.',
+    'labour-employment': 'Industrial Disputes Act, 1947; Code on Wages, 2019; Industrial Relations Code, 2020; Payment of Wages Act, 1936; Shops and Commercial Establishments Acts.',
+    'writs-constitutional-matters': 'Constitution of India (Articles 14, 19, 21, 32, 226, 227); Administrative Law precedents.'
+  };
+
+  const relevantLaws = relevantLawsMap[area.slug] || 'Applicable statutory legislation, central codes, and state rules as relevant to the individual dispute.';
+
+  return `<main id="main-content">
+    ${pageHero({ eyebrow:'Practice Area', title:area.title, lead:area.short, crumbs:[{label:'Practice Areas',path:'/practice-areas/'},{label:area.title}] })}
+    <section class="page-body">
+      <div class="container content-grid">
+        <article class="prose">
+          <div class="section-image-card">
+            <img src="${imageForSlug(area.slug)}" alt="${esc(area.title)} practice area" width="800" height="320" loading="eager" />
+          </div>
+
+          <h2>1. Overview</h2>
+          <p>The practice area of <strong>${esc(area.title)}</strong> involves statutory rights, procedural obligations, and formal dispute resolution mechanisms under Indian jurisprudence. Matters within this domain require methodical factual evaluation, thorough document verification, and choosing the appropriate judicial or quasi-judicial forum.</p>
+
+          <h2>2. Common Legal Issues</h2>
+          <p>Clients seeking legal assistance in this practice area commonly encounter issues such as:</p>
+          <ul>
+            <li>Disputes requiring formal statutory demand notices or responses.</li>
+            <li>Contested litigation requiring plaints, petitions, or written statements before trial courts.</li>
+            <li>Urgent applications for interim orders, bail, protection, or temporary injunctions.</li>
+            <li>Challenges involving territorial, pecuniary, or subject-matter jurisdiction.</li>
+            <li>Execution of decrees, enforcement of awards, or filing statutory appeals and revisions.</li>
+          </ul>
+
+          <h2>3. Legal Services We Provide</h2>
+          <p>LAWPRIME offers structured legal support tailored to the specific requirements of the matter:</p>
+          <ul class="service-list">
+            ${services.map(s => `<li><a href="/practice-areas/${s.areaSlug}/${s.slug}/">${esc(s.title)}</a></li>`).join('')}
+          </ul>
+
+          <h2>4. Typical Documents / Information Required</h2>
+          <p>To evaluate a matter effectively, clients should organize relevant documentary evidence, including:</p>
+          <ul>
+            <li>Original contracts, deeds, agreements, or official certificates.</li>
+            <li>Statutory legal notices served or received, alongside postal receipts and return slips.</li>
+            <li>Communications, email records, bank statements, or payment proofs.</li>
+            <li>Prior court pleadings, orders, police complaints, or government records.</li>
+            <li>A chronological date-wise summary of events leading to the dispute.</li>
+          </ul>
+
+          <h2>5. Relevant Indian Laws</h2>
+          <p>Legal proceedings in this practice area are governed by specific Indian enactments and statutory codes:</p>
+          <div class="notice">
+            <strong>Key Legislation:</strong> ${esc(relevantLaws)}
+          </div>
+
+          <h2>6. How Legal Assistance Can Help</h2>
+          <p>Engaging legal counsel provides structural advantages in navigating the legal system:</p>
+          <ul>
+            <li>Accurate identification of statutory remedies and applicable limitation periods.</li>
+            <li>Proper drafting of legal pleadings adhering to procedural rules and evidentiary standards.</li>
+            <li>Representation during court hearings, cross-examination, and oral arguments.</li>
+            <li>Objective assessment of settlement options or mediation pathways.</li>
+          </ul>
+
+          <h2>7. Litigation / Advisory Process</h2>
+          <p>Proceedings typically follow a structured multi-stage trajectory:</p>
+          <ol>
+            <li><strong>Initial Fact Review:</strong> Examining records, chronology, and legal standing.</li>
+            <li><strong>Notice & Pleadings Stage:</strong> Serving statutory notice or filing plaint/petition.</li>
+            <li><strong>Summons & Written Response:</strong> Court issuance of process and filing written statement.</li>
+            <li><strong>Interim Proceedings & Framing of Issues:</strong> Hearings for interim relief and issue framing.</li>
+            <li><strong>Trial & Evidence:</strong> Leading witness testimony, documentary evidence, and cross-examination.</li>
+            <li><strong>Final Arguments & Judgment:</strong> Submitting legal precedents and receiving judicial decree.</li>
+          </ol>
+
+          <h2>8. Frequently Asked Questions</h2>
+          <div class="accordion">
+            ${areaFaqs.length ? areaFaqs.map(faqMarkup).join('') : faqMarkup({q: `What is the first step in resolving a ${area.title} dispute?`, a: 'The first step is gathering all relevant contracts, notices, and communications, followed by a formal legal review to determine statutory remedies and applicable jurisdiction.'}, 0)}
+          </div>
+
+          <h2>9. Consultation</h2>
+          <p>For matter-specific guidance, review your documentation with our legal team to understand your rights, procedural timelines, and recommended legal strategy.</p>
+          <a class="btn btn-primary" href="/consultation/">Book a Consultation <span>→</span></a>
+
+          <h2 style="margin-top:2.5rem;">10. Legal Disclaimer</h2>
+          <p class="text-muted" style="font-size:0.9rem;">Information presented on this page is for general educational and informational purposes only and does not constitute legal advice. Legal outcomes depend on specific facts, documentary evidence, and applicable law. Viewing this page or submitting an enquiry does not establish an advocate-client relationship.</p>
+        </article>
+        ${consultationPanel(area.title)}
+      </div>
+    </section>
+    ${cta()}
+  </main>`;
 }
 
 function servicePage(service) {
@@ -183,7 +488,54 @@ function formMarkup(kind) {
 function contactPage(isConsultation = false) {
   const title = isConsultation ? 'Request a consultation.' : 'Contact LAWPRIME';
   const lead = isConsultation ? 'Share a concise outline of your legal matter. Consultations are available during working hours (10:00 AM – 5:00 PM).' : 'Direct contact channels and chamber location at Sector 43 District Courts, Chandigarh.';
-  return `<main id="main-content">${pageHero({ eyebrow:isConsultation ? 'Consultation' : 'Contact', title, lead, crumbs:[{label:isConsultation ? 'Consultation' : 'Contact'}] })}<section class="page-body"><div class="container contact-grid"><aside class="contact-panel"><img src="/assets/images/legal-consultation.png" alt="LAWPRIME legal consultation desk and document review" class="contact-image" width="600" height="280" loading="lazy" /><span class="eyebrow">Chamber details</span><h2>Sector 43 District Courts</h2><p>Chamber No. 385, District Courts, Sector 43, Chandigarh – 160043</p><div class="contact-details"><div><span>Phone</span><strong><a href="tel:9855243212">9855243212</a></strong></div><div><span>WhatsApp</span><strong><a href="https://wa.me/919855243212" target="_blank" rel="noopener noreferrer">9855243212</a></strong></div><div><span>Email</span><strong><a href="mailto:guptaslaw@gmail.com">guptaslaw@gmail.com</a></strong></div><div><span>Office / Chamber</span><strong>Chamber No. 385, District Courts, Sector 43, Chandigarh – 160043</strong></div><div><span>Working Hours</span><strong>10:00 AM – 5:00 PM</strong></div></div></aside><div><span class="eyebrow">${isConsultation ? 'Consultation request' : 'Initial enquiry'}</span><h2 style="margin:.7rem 0 1.6rem">Tell us the essentials.</h2>${formMarkup(isConsultation ? 'consultation' : 'contact')}</div></div></section></main>`;
+  const waUrl = 'https://wa.me/919855243212?text=Hello%20LAWPRIME%2C%20I%20would%20like%20to%20discuss%20a%20legal%20matter%20and%20request%20a%20consultation.';
+  const mapUrl = 'https://www.google.com/maps/search/?api=1&query=Chamber+No.+385,+District+Courts,+Sector+43,+Chandigarh';
+  const embedMapUrl = 'https://maps.google.com/maps?q=District+Courts+Sector+43+Chandigarh&t=&z=15&ie=UTF8&iwloc=&output=embed';
+
+  return `<main id="main-content">
+    ${pageHero({ eyebrow:isConsultation ? 'Consultation' : 'Contact', title, lead, crumbs:[{label:isConsultation ? 'Consultation' : 'Contact'}] })}
+    <section class="page-body">
+      <div class="container contact-grid">
+        <aside class="contact-panel">
+          <img src="/assets/images/legal-consultation.png" alt="LAWPRIME legal consultation desk and document review" class="contact-image" width="600" height="280" loading="lazy" />
+          <span class="eyebrow">Chamber details</span>
+          <h2>Sector 43 District Courts</h2>
+          <p>Chamber No. 385, District Courts, Sector 43, Chandigarh – 160043</p>
+          <div class="contact-details">
+            <div><span>Phone</span><strong><a href="tel:9855243212">9855243212</a></strong></div>
+            <div><span>WhatsApp</span><strong><a href="${waUrl}" target="_blank" rel="noopener noreferrer">9855243212</a></strong></div>
+            <div><span>Email</span><strong><a href="mailto:guptaslaw@gmail.com">guptaslaw@gmail.com</a></strong></div>
+            <div><span>Office / Chamber</span><strong>Chamber No. 385, District Courts, Sector 43, Chandigarh – 160043</strong></div>
+            <div><span>Working Hours</span><strong>10:00 AM – 5:00 PM</strong></div>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <a class="btn btn-whatsapp" href="${waUrl}" target="_blank" rel="noopener noreferrer" aria-label="Connect via WhatsApp for legal consultation">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.764.459 3.487 1.333 5.005L2 22l5.127-1.34a9.96 9.96 0 004.88 1.275h.005c5.507 0 9.99-4.478 9.99-9.984 0-2.668-1.039-5.176-2.926-7.062A9.92 9.92 0 0012.012 2zm5.791 14.195c-.244.688-1.423 1.312-1.96 1.385-.502.068-1.155.1-3.344-.808-2.798-1.162-4.6-4.004-4.739-4.19-.139-.186-1.134-1.506-1.134-2.873 0-1.367.714-2.04.97-2.316.255-.276.557-.345.742-.345.186 0 .372.002.534.01.174.008.406-.066.635.483.232.557.789 1.92.858 2.06.069.139.116.302.023.488-.093.186-.139.302-.278.464-.139.162-.292.363-.418.487-.139.139-.284.29-.122.569.162.279.721 1.19 1.547 1.926 1.063.947 1.96 1.24 2.239 1.379.278.139.441.116.603-.069.162-.186.697-.812.882-1.09.186-.279.371-.232.627-.139.255.093 1.625.766 1.903.905.278.139.464.209.534.325.07.116.07.674-.174 1.362z"/></svg>
+              Connect on WhatsApp
+            </a>
+          </div>
+        </aside>
+
+        <div>
+          <span class="eyebrow">${isConsultation ? 'Consultation request' : 'Initial enquiry'}</span>
+          <h2 style="margin:.7rem 0 1.6rem">Tell us the essentials.</h2>
+          ${formMarkup(isConsultation ? 'consultation' : 'contact')}
+        </div>
+      </div>
+
+      <div class="container map-section">
+        <span class="eyebrow">Location map</span>
+        <h2>Our Office Location</h2>
+        <p class="lead">LAWPRIME is conveniently located at Chamber No. 385, District Courts Complex, Sector 43, Chandigarh. Visitors are advised to schedule a consultation during working hours (10:00 AM – 5:00 PM).</p>
+        <div class="map-container">
+          <iframe title="LAWPRIME Office Location Map at Sector 43 District Courts Chandigarh" src="${embedMapUrl}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <a class="btn btn-light" href="${mapUrl}" target="_blank" rel="noopener noreferrer">
+          Open in Google Maps ↗
+        </a>
+      </div>
+    </section>
+  </main>`;
 }
 
 function careers() {
@@ -242,7 +594,9 @@ function setMeta(meta) {
 }
 
 function render() {
-  const result=resolve(); setMeta(result.meta); app.innerHTML=`<div class="site-shell">${header()}${result.html}${footer()}${searchModal()}</div>`; bindUI(); window.scrollTo(0, 0);
+  const result=resolve(); setMeta(result.meta);
+  const floatingWa = `<a class="floating-whatsapp" href="https://wa.me/919855243212?text=Hello%20LAWPRIME%2C%20I%20would%20like%20to%20discuss%20a%20legal%20matter%20and%20request%20a%20consultation." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp with LAWPRIME"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.764.459 3.487 1.333 5.005L2 22l5.127-1.34a9.96 9.96 0 004.88 1.275h.005c5.507 0 9.99-4.478 9.99-9.984 0-2.668-1.039-5.176-2.926-7.062A9.92 9.92 0 0012.012 2zm5.791 14.195c-.244.688-1.423 1.312-1.96 1.385-.502.068-1.155.1-3.344-.808-2.798-1.162-4.6-4.004-4.739-4.19-.139-.186-1.134-1.506-1.134-2.873 0-1.367.714-2.04.97-2.316.255-.276.557-.345.742-.345.186 0 .372.002.534.01.174.008.406-.066.635.483.232.557.789 1.92.858 2.06.069.139.116.302.023.488-.093.186-.139.302-.278.464-.139.162-.292.363-.418.487-.139.139-.284.29-.122.569.162.279.721 1.19 1.547 1.926 1.063.947 1.96 1.24 2.239 1.379.278.139.441.116.603-.069.162-.186.697-.812.882-1.09.186-.279.371-.232.627-.139.255.093 1.625.766 1.903.905.278.139.464.209.534.325.07.116.07.674-.174 1.362z"/></svg></a>`;
+  app.innerHTML=`<div class="site-shell">${header()}${result.html}${footer()}${floatingWa}${searchModal()}</div>`; bindUI(); window.scrollTo(0, 0);
 }
 
 function searchModal() {

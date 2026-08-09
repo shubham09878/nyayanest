@@ -90,11 +90,12 @@ function renderRoute(route, title, description) {
     .replace(/(<meta property="og:url" content=")[^"]*(" \/>)/, `$1${canonical}$2`);
 }
 
-if (existsSync(join(root, 'wrangler.toml'))) rmSync(join(root, 'wrangler.toml'), { force: true });
 if (existsSync(dist)) rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 cpSync(join(root, 'assets'), join(dist, 'assets'), { recursive: true });
-for (const file of ['_redirects', 'site.webmanifest']) cpSync(join(root, file), join(dist, file));
+for (const file of ['_redirects', 'site.webmanifest', 'wrangler.toml']) {
+  if (existsSync(join(root, file))) cpSync(join(root, file), join(dist, file));
+}
 
 for (const [route, title, description] of routes) {
   const target = route === '/' ? join(dist, 'index.html') : join(dist, route, 'index.html');

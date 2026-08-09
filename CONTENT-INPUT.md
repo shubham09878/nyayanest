@@ -18,12 +18,12 @@ To ensure proper static route generation, canonical link tags, Open Graph meta t
 
 Update `site.contact` in `assets/data.js` with verified contact details:
 
-| Field Name | Type | Description | Example / Format |
+| Field Name | Type | Description | Verified Value |
 | :--- | :--- | :--- | :--- |
-| `phone` | String | Official telephone / mobile number | `"+91 172 XXXXXXX"` |
-| `email` | String | Official contact email address | `"contact@lawprime.com"` |
-| `whatsapp` | String | Official WhatsApp number or link | `"+91 98XXXXXXXX"` |
-| `address` | String | Official physical office location / address | `"Office No. XX, Sector XX, Chandigarh"` |
+| `phone` | String | Official telephone / mobile number | `"9855243212"` |
+| `email` | String | Official contact email address | `"guptaslaw@gmail.com"` |
+| `whatsapp` | String | Official WhatsApp number or link | `"9855243212"` |
+| `address` | String | Official physical office location / address | `"Chamber No. 385, District Courts, Sector 43, Chandigarh – 160043"` |
 
 ---
 

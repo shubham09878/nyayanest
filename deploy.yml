@@ -1,4 +1,4 @@
-name: Deploy NyayaNest to GitHub Pages
+name: Deploy LAWPRIME to GitHub Pages
 
 on:
   push:
