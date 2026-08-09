@@ -2,6 +2,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, write
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { practiceAreas, courts, caseTypes, notices, resources, serviceRecords, judgments, insights, lawyers } from '../assets/data.js';
+import { renderRouteContent } from '../assets/app.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
@@ -79,15 +80,29 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>'"]/g, char => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[char]));
 }
 
-function renderRoute(route, title, description) {
-  const canonical = `${domain}${route}`;
+function renderRoute(route, defaultTitle, defaultDescription) {
+  const { appHtml, meta } = renderRouteContent(route);
+  const title = meta.title || defaultTitle;
+  const description = meta.description || defaultDescription;
+  const canonical = `${domain}${route === '/' ? '/' : `${route}/`}`.replace(/\/+/g, '/').replace('https:/', 'https://');
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': meta.type || 'WebPage',
+    name: title.replace(' | LAWPRIME', ''),
+    description: description,
+    url: canonical
+  };
+
   return shell
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(" \/>)/, `$1${escapeHtml(description)}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(" \/>)/, `$1${canonical}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(" \/>)/, `$1${escapeHtml(title)}$2`)
     .replace(/(<meta property="og:description" content=")[^"]*(" \/>)/, `$1${escapeHtml(description)}$2`)
-    .replace(/(<meta property="og:url" content=")[^"]*(" \/>)/, `$1${canonical}$2`);
+    .replace(/(<meta property="og:url" content=")[^"]*(" \/>)/, `$1${canonical}$2`)
+    .replace(/(<meta name="robots" content=")[^"]*(" \/>)/, `$1${meta.noindex ? 'noindex,nofollow' : 'index,follow'}$2`)
+    .replace(/(<script type="application\/ld\+json" id="schema-data">)[\s\S]*?(<\/script>)/, `$1${JSON.stringify(schema)}$2`)
+    .replace('<div id="app"></div>', `<div id="app">${appHtml}</div>`);
 }
 
 if (existsSync(dist)) rmSync(dist, { recursive: true, force: true });

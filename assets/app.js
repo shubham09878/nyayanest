@@ -1,6 +1,6 @@
 import { site, practiceAreas, courts, caseTypes, notices, resources, faqs, judgments, insights, lawyers, legalGlossary, serviceRecords, searchableItems } from './data.js';
 
-const app = document.querySelector('#app');
+const getAppElement = () => typeof document !== 'undefined' ? document.querySelector('#app') : null;
 const baseUrl = 'https://www.lawprime.com';
 
 function imageForSlug(slug = '') {
@@ -30,7 +30,7 @@ const mainNav = [
 
 const esc = (value = '') => String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
 const titleCase = (value) => value.replace(/-/g, ' ').replace(/\b\w/g, x => x.toUpperCase());
-const path = () => location.pathname.replace(/\/+/g, '/').replace(/index\.html$/, '').replace(/\/$/, '') || '/';
+const path = (overridePath) => overridePath ? overridePath.replace(/\/+/g, '/').replace(/index\.html$/, '').replace(/\/$/, '') || '/' : (typeof location !== 'undefined' ? location.pathname.replace(/\/+/g, '/').replace(/index\.html$/, '').replace(/\/$/, '') || '/' : '/');
 const link = (to, content, className = '') => `<a href="${to}"${className ? ` class="${className}"` : ''}>${content}</a>`;
 
 const card = (to, meta, title, text = '', slug = '') => {
@@ -561,13 +561,13 @@ function notFound() {
   return `<main id="main-content">${pageHero({eyebrow:'404',title:'This page has not been found.',lead:'The address may be incorrect, or the page may not yet be published.',crumbs:[{label:'Page not found'}]})}<section class="page-body"><div class="container"><a class="btn btn-primary" href="/">Return home</a></div></section></main>`;
 }
 
-function resolve() {
-  const current = path();
+function resolve(overridePath) {
+  const current = path(overridePath);
   if (current === '/') return { html:home(), meta:{title:'LAWPRIME | Legal counsel with clarity',description:site.description,type:'WebPage'} };
   const staticRoutes = {
     '/about': [about, 'About LAWPRIME | LAWPRIME'], '/practice-areas': [practiceListing, 'Practice Areas | LAWPRIME'], '/courts': [courtsListing, 'Courts & Jurisdictions | LAWPRIME'], '/case-types': [() => listingPage('case-types'), 'Case Types | LAWPRIME'], '/legal-notices': [() => listingPage('legal-notices'), 'Legal Notices | LAWPRIME'], '/legal-resources': [() => listingPage('legal-resources'), 'Legal Resources | LAWPRIME'], '/judgments': [judgmentsPage, 'Judgment Library | LAWPRIME'], '/legal-insights': [insightsPage, 'Legal Insights | LAWPRIME'], '/lawyers': [lawyersPage, 'Lawyers | LAWPRIME'], '/faqs': [faqsPage, 'Frequently Asked Questions | LAWPRIME'], '/contact': [() => contactPage(false), 'Contact | LAWPRIME'], '/consultation': [() => contactPage(true), 'Consultation | LAWPRIME'], '/careers': [careers, 'Careers | LAWPRIME'], '/privacy-policy': [() => legalPage('privacy-policy'), 'Privacy Policy | LAWPRIME'], '/terms-of-use': [() => legalPage('terms-of-use'), 'Terms of Use | LAWPRIME'], '/website-disclaimer': [() => legalPage('website-disclaimer'), 'Website Disclaimer | LAWPRIME'], '/legal-disclaimer': [() => legalPage('legal-disclaimer'), 'Legal Disclaimer | LAWPRIME']
   };
-  if (staticRoutes[current]) { const [render,title] = staticRoutes[current]; return {html:render(),meta:{title,description:site.description,type:'WebPage'}}; }
+  if (staticRoutes[current]) { const [renderFn,title] = staticRoutes[current]; return {html:renderFn(),meta:{title,description:site.description,type:'WebPage'}}; }
   const parts = current.split('/').filter(Boolean);
   if (parts[0] === 'practice-areas' && parts.length === 2) { const area=practiceAreas.find(x=>x.slug===parts[1]); if (area) return {html:practicePage(area),meta:{title:`${area.title} | LAWPRIME`,description:area.short,type:'LegalService'}}; }
   if (parts[0] === 'practice-areas' && parts.length === 3) { const service=serviceRecords.find(x=>x.areaSlug===parts[1]&&x.slug===parts[2]); if (service) return {html:servicePage(service),meta:{title:`${service.title} | LAWPRIME`,description:service.description,type:'LegalService'}}; }
@@ -581,22 +581,36 @@ function resolve() {
   return {html:notFound(),meta:{title:'Page not found | LAWPRIME',description:'This page is not available.',type:'WebPage',noindex:true}};
 }
 
-function setMeta(meta) {
+function setMeta(meta, domain = baseUrl) {
+  if (typeof document === 'undefined') return;
   document.title=meta.title;
   const description=document.querySelector('meta[name="description"]'); if(description) description.content=meta.description;
-  const canonical=document.querySelector('link[rel="canonical"]'); if(canonical) canonical.href=`${baseUrl}${path() === '/' ? '/' : `${path()}/`}`;
+  const canonical=document.querySelector('link[rel="canonical"]'); if(canonical) canonical.href=`${domain}${path() === '/' ? '/' : `${path()}/`}`;
   document.querySelector('meta[property="og:title"]')?.setAttribute('content',meta.title);
   document.querySelector('meta[property="og:description"]')?.setAttribute('content',meta.description);
-  document.querySelector('meta[property="og:url"]')?.setAttribute('content',canonical?.href || baseUrl);
+  document.querySelector('meta[property="og:url"]')?.setAttribute('content',canonical?.href || domain);
   const robots=document.querySelector('meta[name="robots"]'); if(robots) robots.content=meta.noindex?'noindex,nofollow':'index,follow';
-  const schema={ '@context':'https://schema.org', '@type':meta.type || 'WebPage', name:meta.title.replace(' | LAWPRIME',''), description:meta.description, url:canonical?.href || baseUrl };
-  document.querySelector('#schema-data').textContent=JSON.stringify(schema);
+  const schema={ '@context':'https://schema.org', '@type':meta.type || 'WebPage', name:meta.title.replace(' | LAWPRIME',''), description:meta.description, url:canonical?.href || domain };
+  const schemaEl = document.querySelector('#schema-data'); if(schemaEl) schemaEl.textContent=JSON.stringify(schema);
+}
+
+export function renderRouteContent(targetPath = '/') {
+  const result = resolve(targetPath);
+  const floatingWa = `<a class="floating-whatsapp" href="https://wa.me/919855243212?text=Hello%20LAWPRIME%2C%20I%20would%20like%20to%20discuss%20a%20legal%20matter%20and%20request%20a%20consultation." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp with LAWPRIME"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.764.459 3.487 1.333 5.005L2 22l5.127-1.34a9.96 9.96 0 004.88 1.275h.005c5.507 0 9.99-4.478 9.99-9.984 0-2.668-1.039-5.176-2.926-7.062A9.92 9.92 0 0012.012 2zm5.791 14.195c-.244.688-1.423 1.312-1.96 1.385-.502.068-1.155.1-3.344-.808-2.798-1.162-4.6-4.004-4.739-4.19-.139-.186-1.134-1.506-1.134-2.873 0-1.367.714-2.04.97-2.316.255-.276.557-.345.742-.345.186 0 .372.002.534.01.174.008.406-.066.635.483.232.557.789 1.92.858 2.06.069.139.116.302.023.488-.093.186-.139.302-.278.464-.139.162-.292.363-.418.487-.139.139-.284.29-.122.569.162.279.721 1.19 1.547 1.926 1.063.947 1.96 1.24 2.239 1.379.278.139.441.116.603-.069.162-.186.697-.812.882-1.09.186-.279.371-.232.627-.139.255.093 1.625.766 1.903.905.278.139.464.209.534.325.07.116.07.674-.174 1.362z"/></svg></a>`;
+  const appContent = `<div class="site-shell">${header()}${result.html}${footer()}${floatingWa}${searchModal()}</div>`;
+  return {
+    appHtml: appContent,
+    meta: result.meta
+  };
 }
 
 function render() {
-  const result=resolve(); setMeta(result.meta);
+  if (typeof document === 'undefined') return;
+  const appEl = getAppElement();
+  if (!appEl) return;
+  const result = resolve(); setMeta(result.meta);
   const floatingWa = `<a class="floating-whatsapp" href="https://wa.me/919855243212?text=Hello%20LAWPRIME%2C%20I%20would%20like%20to%20discuss%20a%20legal%20matter%20and%20request%20a%20consultation." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp with LAWPRIME"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.764.459 3.487 1.333 5.005L2 22l5.127-1.34a9.96 9.96 0 004.88 1.275h.005c5.507 0 9.99-4.478 9.99-9.984 0-2.668-1.039-5.176-2.926-7.062A9.92 9.92 0 0012.012 2zm5.791 14.195c-.244.688-1.423 1.312-1.96 1.385-.502.068-1.155.1-3.344-.808-2.798-1.162-4.6-4.004-4.739-4.19-.139-.186-1.134-1.506-1.134-2.873 0-1.367.714-2.04.97-2.316.255-.276.557-.345.742-.345.186 0 .372.002.534.01.174.008.406-.066.635.483.232.557.789 1.92.858 2.06.069.139.116.302.023.488-.093.186-.139.302-.278.464-.139.162-.292.363-.418.487-.139.139-.284.29-.122.569.162.279.721 1.19 1.547 1.926 1.063.947 1.96 1.24 2.239 1.379.278.139.441.116.603-.069.162-.186.697-.812.882-1.09.186-.279.371-.232.627-.139.255.093 1.625.766 1.903.905.278.139.464.209.534.325.07.116.07.674-.174 1.362z"/></svg></a>`;
-  app.innerHTML=`<div class="site-shell">${header()}${result.html}${footer()}${floatingWa}${searchModal()}</div>`; bindUI(); window.scrollTo(0, 0);
+  appEl.innerHTML=`<div class="site-shell">${header()}${result.html}${footer()}${floatingWa}${searchModal()}</div>`; bindUI(); window.scrollTo(0, 0);
 }
 
 function searchModal() {
@@ -604,6 +618,7 @@ function searchModal() {
 }
 
 function bindUI() {
+  if (typeof document === 'undefined') return;
   window.lawprimeUiAbort?.abort();
   const controller = new AbortController();
   window.lawprimeUiAbort = controller;
@@ -633,6 +648,7 @@ function bindUI() {
 }
 
 function renderSearch(query) {
+  if (typeof document === 'undefined') return;
   const root=document.querySelector('[data-search-results]'); const clean=query.trim().toLowerCase();
   if(!clean) { root.innerHTML='<p class="text-muted">Start typing to search the legal knowledge platform.</p>'; return; }
   const hits=searchableItems.filter(item=>`${item.title} ${item.type} ${item.text}`.toLowerCase().includes(clean)).slice(0,12);
@@ -667,7 +683,10 @@ function bindForm(form) {
   });
 }
 
-function navigate(to) { history.pushState({},'',to); document.body.classList.remove('menu-open','modal-open'); render(); }
-window.addEventListener('popstate',render);
-render();
+function navigate(to) { if (typeof history !== 'undefined') history.pushState({},'',to); if (typeof document !== 'undefined') document.body.classList.remove('menu-open','modal-open'); render(); }
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('popstate', render);
+  render();
+}
 
